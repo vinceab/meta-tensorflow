@@ -39,9 +39,10 @@ RDEPENDS_${PN} += " \
     python3-google-pasta \
     python3-typing-extensions \
     flatbuffers-python3 \
-    tensorboard \
     tensorflow-estimator \
 "
+
+#tensorboard
 
 export PYTHON_BIN_PATH="${PYTHON}"
 export PYTHON_LIB_PATH="${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages"
