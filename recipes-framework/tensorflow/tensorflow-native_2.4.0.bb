@@ -11,8 +11,17 @@ do_configure_append () {
 }
 
 do_compile () {
+    if [ -n "${http_proxy}" ]; then
+        export HTTP_PROXY=${http_proxy}
+        export http_proxy=${http_proxy}
+    fi
+    if [ -n "${https_proxy}" ]; then
+        export HTTPS_PROXY=${https_proxy}
+        export https_proxy=${https_proxy}
+    fi
+
     unset CC
-    ${BAZEL} build \
+    ${BAZEL} --host_jvm_args="-Djdk.http.auth.tunneling.disabledSchemes=" build \
         ${TF_ARGS_EXTRA} \
         -c opt \
         --subcommands --explain=${T}/explain.log \

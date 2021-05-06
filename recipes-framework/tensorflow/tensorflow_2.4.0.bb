@@ -88,9 +88,18 @@ ENDOF
 
 TF_TARGET_EXTRA ??= ""
 do_compile () {
+    if [ -n "${http_proxy}" ]; then
+        export HTTP_PROXY=${http_proxy}
+        export http_proxy=${http_proxy}
+    fi
+    if [ -n "${https_proxy}" ]; then
+        export HTTPS_PROXY=${https_proxy}
+        export https_proxy=${https_proxy}
+    fi
+
     export CT_NAME=$(echo ${HOST_PREFIX} | rev | cut -c 2- | rev)
     unset CC
-    ${BAZEL} build \
+    ${BAZEL} --host_jvm_args="-Djdk.http.auth.tunneling.disabledSchemes=" build \
         ${TF_ARGS_EXTRA} \
         -c opt \
         --cpu=${BAZEL_TARGET_CPU} \
